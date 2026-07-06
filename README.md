@@ -24,10 +24,10 @@ Works with Windows PowerShell 5.1 and PowerShell 7+ (`pwsh`).
 Both shells use the same layout:
 
 ```
-[time:user:host:dir]$ 
+[time:user:privilege:host:dir]$ 
 ```
 
-User is green (red when running as root/administrator), host is cyan, and directory is blue.
+Privilege is `admuser` (red) when running elevated or as root, or `stduser` (dim gray) otherwise. Username is green, host is cyan, and directory is blue.
 
 ![CLI prompt bootstrap on Linux](assets/cli-prompt-bootstrap-linux-960x400.png)
 *Example of the custom Bash prompt on Linux.*

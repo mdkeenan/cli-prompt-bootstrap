@@ -32,13 +32,16 @@ function global:prompt {
 
     $Host.UI.RawUI.WindowTitle = "${user}@${hostname}: $($location.Path)"
 
-    $userColor = if ($isAdmin) { 'Red' } else { 'Green' }
+    $privLabel = if ($isAdmin) { 'admuser' } else { 'stduser' }
+    $privColor = if ($isAdmin) { 'Red' } else { 'DarkGray' }
     $suffix = if ($isAdmin) { '# ' } else { '$ ' }
 
     Write-Host '[' -NoNewline -ForegroundColor Yellow
     Write-Host $time -NoNewline
     Write-Host ':' -NoNewline -ForegroundColor Yellow
-    Write-Host $user -NoNewline -ForegroundColor $userColor
+    Write-Host $user -NoNewline -ForegroundColor Green
+    Write-Host ':' -NoNewline -ForegroundColor Yellow
+    Write-Host $privLabel -NoNewline -ForegroundColor $privColor
     Write-Host ':' -NoNewline -ForegroundColor Yellow
     Write-Host $hostname -NoNewline -ForegroundColor Cyan
     Write-Host ':' -NoNewline -ForegroundColor Yellow

@@ -59,6 +59,7 @@ FBLE="\[\033[34m\]"
 FMAG="\[\033[35m\]"
 FCYN="\[\033[36m\]"
 FWHT="\[\033[37m\]"
+FDGRY="\[\033[90m\]"  # dim gray
 BBLK="\[\033[40m\]"
 BRED="\[\033[41m\]"
 BGRN="\[\033[42m\]"
@@ -71,12 +72,16 @@ BWHT="\[\033[47m\]"
 # Prompt
 if [ "${color_prompt:-}" = yes ]; then
     if [ "$EUID" -eq 0 ]; then
-        PS1="$HC$FYEL[$RS\A$FYEL:$FRED${debian_chroot:+($debian_chroot)}\u$FYEL:$FCYN\h$FYEL:$FBLE\W$FYEL]\\$ $RS"
+        PS1="$HC$FYEL[$RS\A$FYEL:$FGRN${debian_chroot:+($debian_chroot)}\u$FYEL:$FREDadmuser$FYEL:$FCYN\h$FYEL:$FBLE\W$FYEL]\\# $RS"
     else
-        PS1="$HC$FYEL[$RS\A$FYEL:$FGRN${debian_chroot:+($debian_chroot)}\u$FYEL:$FCYN\h$FYEL:$FBLE\W$FYEL]\\$ $RS"
+        PS1="$HC$FYEL[$RS\A$FYEL:$FGRN${debian_chroot:+($debian_chroot)}\u$FYEL:$FDGRYstduser$FYEL:$FCYN\h$FYEL:$FBLE\W$FYEL]\\$ $RS"
     fi
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u:\W\$ '
+    if [ "$EUID" -eq 0 ]; then
+        PS1='${debian_chroot:+($debian_chroot)}\u:admuser:\h:\W\# '
+    else
+        PS1='${debian_chroot:+($debian_chroot)}\u:stduser:\h:\W\$ '
+    fi
 fi
 unset color_prompt force_color_prompt
 
