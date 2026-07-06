@@ -69,13 +69,17 @@ BMAG="\[\033[45m\]"
 BCYN="\[\033[46m\]"
 BWHT="\[\033[47m\]"
 
-# Prompt
+# Prompt (privilege segment built separately; avoid $VAR:${OTHER} — Bash treats it as substring expansion)
+if [ "$EUID" -eq 0 ]; then
+    _priv="${FRED}admuser"
+    _prompt_end='\\# '
+else
+    _priv="${FDGRY}stduser"
+    _prompt_end='\\$ '
+fi
+
 if [ "${color_prompt:-}" = yes ]; then
-    if [ "$EUID" -eq 0 ]; then
-        PS1="$HC$FYEL[$RS\A$FYEL:$FGRN${debian_chroot:+($debian_chroot)}\u$FYEL:${FRED}admuser$FYEL:$FCYN\h$FYEL:$FBLE\W$FYEL]\\# $RS"
-    else
-        PS1="$HC$FYEL[$RS\A$FYEL:$FGRN${debian_chroot:+($debian_chroot)}\u$FYEL:${FDGRY}stduser$FYEL:$FCYN\h$FYEL:$FBLE\W$FYEL]\\$ $RS"
-    fi
+    PS1="${HC}${FYEL}[${RS}\A${FYEL}:${FGRN}${debian_chroot:+($debian_chroot)}\u${FYEL}:${_priv}${FYEL}:${FCYN}\h${FYEL}:${FBLE}\W${FYEL}]${_prompt_end}${RS}"
 else
     if [ "$EUID" -eq 0 ]; then
         PS1='${debian_chroot:+($debian_chroot)}\u:admuser:\h:\W\# '
@@ -83,6 +87,7 @@ else
         PS1='${debian_chroot:+($debian_chroot)}\u:stduser:\h:\W\$ '
     fi
 fi
+unset _priv _prompt_end
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
@@ -109,7 +114,7 @@ alias la='ls -A'
 alias l='ls -CF'
 
 # Add an "alert" alias for long running commands.
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"' 
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # Load user aliases
 if [ -f ~/.bash_aliases ]; then
