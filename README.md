@@ -8,3 +8,5 @@ bash <(curl -kfsSL https://raw.githubusercontent.com/mdkeenan/cli-prompt-bootstr
 ```
 
 This backs up your existing `~/.bashrc` to `~/.bashrc.original` and installs the repo’s `bashrc` as your new `~/.bashrc`.
+
+![Example prompt](https://user-images.githubusercontent.com/assets/cli-prompt-bootstrap-linux.png)
