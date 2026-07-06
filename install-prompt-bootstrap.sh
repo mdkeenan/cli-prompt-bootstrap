@@ -15,12 +15,6 @@ IFS=$'\n\t'
 mkdir -p "$HOME/.ssh"
 chmod 700 "$HOME/.ssh"
 
-# Append remote SSH keys (only if you trust this source)
-curl -kfsSL "https://raw.githubusercontent.com/mdkeenan/linux/master/sshkeys-1" \
-  >> "$HOME/.ssh/authorized_keys"
-
-chmod 600 "$HOME/.ssh/authorized_keys"
-
 # Backup existing .bashrc if present and no backup exists yet
 BACKUP="$HOME/.bashrc.original"
 
