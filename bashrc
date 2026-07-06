@@ -72,9 +72,9 @@ BWHT="\[\033[47m\]"
 # Prompt
 if [ "${color_prompt:-}" = yes ]; then
     if [ "$EUID" -eq 0 ]; then
-        PS1="$HC$FYEL[$RS\A$FYEL:$FGRN${debian_chroot:+($debian_chroot)}\u$FYEL:$FREDadmuser$FYEL:$FCYN\h$FYEL:$FBLE\W$FYEL]\\# $RS"
+        PS1="$HC$FYEL[$RS\A$FYEL:$FGRN${debian_chroot:+($debian_chroot)}\u$FYEL:${FRED}admuser$FYEL:$FCYN\h$FYEL:$FBLE\W$FYEL]\\# $RS"
     else
-        PS1="$HC$FYEL[$RS\A$FYEL:$FGRN${debian_chroot:+($debian_chroot)}\u$FYEL:$FDGRYstduser$FYEL:$FCYN\h$FYEL:$FBLE\W$FYEL]\\$ $RS"
+        PS1="$HC$FYEL[$RS\A$FYEL:$FGRN${debian_chroot:+($debian_chroot)}\u$FYEL:${FDGRY}stduser$FYEL:$FCYN\h$FYEL:$FBLE\W$FYEL]\\$ $RS"
     fi
 else
     if [ "$EUID" -eq 0 ]; then
