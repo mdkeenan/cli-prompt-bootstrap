@@ -6,6 +6,8 @@ Install a custom prompt and shell config for Bash or PowerShell.
 
 ## Bash
 
+Copy and paste the following message into your Linux command prompt then run 'exec bash' or 'source ~/.bashrc' or restart your shell to apply.
+
 ```bash
 bash <(curl -kfsSL https://raw.githubusercontent.com/mdkeenan/cli-prompt-bootstrap/main/install-prompt-bootstrap.sh)
 ```
@@ -13,6 +15,8 @@ bash <(curl -kfsSL https://raw.githubusercontent.com/mdkeenan/cli-prompt-bootstr
 This backs up your existing `~/.bashrc` to `~/.bashrc.original` and installs the repo’s `bashrc` as your new `~/.bashrc`.
 
 ## PowerShell
+
+Copy and paste the following message into your Windows PowerShell command prompt then run '. $PROFILE' or restart your shell to apply.
 
 ```powershell
 irm https://raw.githubusercontent.com/mdkeenan/cli-prompt-bootstrap/main/install-prompt-bootstrap.ps1 | iex
