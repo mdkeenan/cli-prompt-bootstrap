@@ -19,7 +19,7 @@ if [ -f "$HOME/.bashrc" ] && [ ! -f "$BACKUP" ]; then
 fi
 
 # Download and replace bashrc for current user
-curl -kfsSL "https://raw.githubusercontent.com/mdkeenan/cli-prompt-bootstrap/master/bootstrap-bashrc.rc" \
+curl -kfsSL "https://raw.githubusercontent.com/mdkeenan/cli-prompt-bootstrap/master/bashrc" \
   -o "$HOME/.bashrc"
 
 # Advise user to reload shell manually
