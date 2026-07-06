@@ -7,12 +7,45 @@ if (Get-Module -ListAvailable -Name PSReadLine) {
     Set-PSReadLineOption -HistoryNoDuplicates -ErrorAction SilentlyContinue
 }
 
+function global:Shorten-PathSegments {
+    param(
+        [string]$Path,
+        [int]$MaxLen = 3
+    )
+
+    if ($Path -eq '~') { return '~' }
+
+    $prefix = ''
+    $rest = $Path
+    if ($Path.StartsWith('~/')) {
+        $prefix = '~/'
+        $rest = $Path.Substring(2)
+    } elseif ($Path.StartsWith('/')) {
+        $prefix = '/'
+        $rest = $Path.TrimStart('/')
+    }
+
+    if (-not $rest) { return $prefix.TrimEnd('/') }
+
+    $segments = $rest -split '[/\\]' | Where-Object { $_ }
+    $short = @($segments | ForEach-Object {
+        if ($_.Length -gt $MaxLen) { $_.Substring(0, $MaxLen) } else { $_ }
+    })
+    $joined = $short -join '/'
+
+    if ($prefix -eq '~/') { return $prefix + $joined }
+    if ($prefix -eq '/') { return '/' + $joined }
+    if ($short.Count -eq 1) { return $short[0] }
+    return $joined
+}
+
 function global:Get-PromptDirectory {
     param([string]$Path)
 
     if (-not $HOME) {
         $leaf = Split-Path -Leaf $Path
-        return if ($leaf) { $leaf } else { $Path }
+        $result = if ($leaf) { $leaf } else { $Path }
+        return Shorten-PathSegments $result
     }
 
     try {
@@ -20,7 +53,8 @@ function global:Get-PromptDirectory {
         $homePath = [System.IO.Path]::GetFullPath($HOME)
     } catch {
         $leaf = Split-Path -Leaf $Path
-        return if ($leaf) { $leaf } else { $Path }
+        $result = if ($leaf) { $leaf } else { $Path }
+        return Shorten-PathSegments $result
     }
 
     if ($currentPath.Equals($homePath, [StringComparison]::OrdinalIgnoreCase)) {
@@ -30,12 +64,12 @@ function global:Get-PromptDirectory {
     $homePrefix = $homePath.TrimEnd('\', '/') + [System.IO.Path]::DirectorySeparatorChar
     if ($currentPath.StartsWith($homePrefix, [StringComparison]::OrdinalIgnoreCase)) {
         $relative = $currentPath.Substring($homePrefix.Length).Replace('\', '/')
-        return "~/$relative"
+        return Shorten-PathSegments "~/$relative"
     }
 
     $leaf = Split-Path -Leaf $currentPath
-    if (-not $leaf) { return $currentPath }
-    return $leaf
+    if (-not $leaf) { return Shorten-PathSegments $currentPath }
+    return Shorten-PathSegments $leaf
 }
 
 function global:prompt {

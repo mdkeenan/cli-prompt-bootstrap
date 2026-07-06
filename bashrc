@@ -12,12 +12,7 @@ shopt -s histappend                 # append to the history file, don't overwrit
 HISTSIZE=50000
 HISTFILESIZE=100000
 
-# Keep different sessions' history in sync
-if [[ -z "${PROMPT_COMMAND:-}" ]]; then
-  PROMPT_COMMAND='history -a; history -n'
-else
-  PROMPT_COMMAND='history -a; history -n; '"$PROMPT_COMMAND"
-fi
+# Keep different sessions' history in sync (PROMPT_COMMAND extended below after _prompt_dir_short)
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -69,6 +64,35 @@ BMAG="\[\033[45m\]"
 BCYN="\[\033[46m\]"
 BWHT="\[\033[47m\]"
 
+# Shorten each path segment to 3 characters for the prompt directory display
+_prompt_dir_short() {
+    local part
+    if [[ "$PWD" == "$HOME" ]]; then
+        _prompt_dir='~'
+        return
+    fi
+    if [[ "$PWD" == "$HOME"/* ]]; then
+        _prompt_dir='~'
+        local IFS='/'
+        read -ra _path_parts <<< "${PWD#$HOME/}"
+        for part in "${_path_parts[@]}"; do
+            [[ -n "$part" ]] && _prompt_dir+="/${part:0:3}"
+        done
+        return
+    fi
+    _prompt_dir=''
+    if [[ "$PWD" == /* ]]; then
+        local IFS='/'
+        read -ra _path_parts <<< "${PWD#/}"
+        for part in "${_path_parts[@]}"; do
+            [[ -n "$part" ]] && _prompt_dir+="/${part:0:3}"
+        done
+        [[ -z "$_prompt_dir" ]] && _prompt_dir='/'
+    else
+        _prompt_dir="${PWD:0:3}"
+    fi
+}
+
 # Privilege label: admuser if root or in sudo/wheel/admin group
 _is_admuser=0
 if [ "$EUID" -eq 0 ]; then
@@ -89,12 +113,19 @@ else
 fi
 
 if [ "${color_prompt:-}" = yes ]; then
-    PS1="${HC}${FYEL}[${RS}\A${FYEL}:${FGRN}${debian_chroot:+($debian_chroot)}\u${FYEL}:${_priv}${FYEL}:${FCYN}\h${FYEL}:${FBLE}\w${FYEL}]\$ ${RS}"
+    PS1="${HC}${FYEL}[${RS}\A${FYEL}:${FGRN}${debian_chroot:+($debian_chroot)}\u${FYEL}:${_priv}${FYEL}:${FCYN}\h${FYEL}:${FBLE}\${_prompt_dir}${FYEL}]\$ ${RS}"
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u:'"$_priv_label"':\h:\w$ '
+    PS1='${debian_chroot:+($debian_chroot)}\u:'"$_priv_label"':\h:${_prompt_dir}$ '
 fi
-unset _is_admuser _groups _priv _priv_label
+unset _is_admuser _groups _priv _priv_label _path_parts
 unset color_prompt force_color_prompt
+
+# Keep different sessions' history in sync
+if [[ -z "${PROMPT_COMMAND:-}" ]]; then
+  PROMPT_COMMAND='_prompt_dir_short; history -a; history -n'
+else
+  PROMPT_COMMAND='_prompt_dir_short; history -a; history -n; '"$PROMPT_COMMAND"
+fi
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
