@@ -2,36 +2,63 @@
 Install a custom prompt and shell config for Bash or PowerShell.
 
 ![CLI prompt bootstrap on Linux](assets/cli-prompt-bootstrap-1060x380.png)
-*Example of the custom Bash prompt on Linux and Windows.*
+*Example of the custom prompt on Linux and Windows.*
+
+## Features
+
+### Custom prompt
+Both shells use the same layout and color scheme:
+
+```
+[time:user:privilege:hostname:dir]$
+```
+
+| Segment | Color | Example |
+|---------|-------|---------|
+| Brackets, colons, `$` | Yellow | `[` `:` `]` `$` |
+| Time | Default | `02:45:53` |
+| Username | Green | `micha` |
+| Privilege | Red or dim gray | `admuser` / `stduser` |
+| Hostname | Cyan | `ubuntu` |
+| Directory | Blue | `~/One/Doc` |
+
+- **Privilege** — `admuser` (red) when running as root or a member of the sudo/admin group; `stduser` (dim gray) otherwise. On Windows, membership in the Administrators group counts as `admuser`.
+- **Directory** — paths under home display with a Linux-style tilde (`~`, `~/Documents`). Each folder name is shortened to its first three characters (`~/OneDrive/Documents` → `~/One/Doc`).
+- **Suffix** — all prompts end with `$` (privilege is shown in the `admuser`/`stduser` segment, not with `#`).
+- **Window title** (PowerShell) — shows the full path even when the prompt directory is shortened.
+
+### Shell defaults
+- **History** — large command history with duplicate suppression (Bash: 50,000 entries; PowerShell: 32,767).
+- **Directory helpers** — `ll`, `la`, and `l` aliases/functions (Bash: `ls` variants; PowerShell: `Get-ChildItem` variants).
+- **User aliases** — optional `~/.bash_aliases` or `~/.powershell_aliases.ps1` loaded automatically if present.
+- **Bash extras** — colored `ls`/`grep`, bash-completion, and cross-session history sync.
+
+### Install safety
+- Backs up your existing config to `~/.bashrc.original` or `$PROFILE.original` before replacing it.
+- PowerShell installer reloads the profile automatically after install.
 
 ## Bash
-
-Copy and paste the following message into your Linux command prompt then run 'exec bash' or 'source ~/.bashrc' or restart your shell to apply.
 
 ```bash
 bash <(curl -kfsSL https://raw.githubusercontent.com/mdkeenan/cli-prompt-bootstrap/main/install-prompt-bootstrap.sh)
 ```
 
-This backs up your existing `~/.bashrc` to `~/.bashrc.original` and installs the repo’s `bashrc` as your new `~/.bashrc`.
+Then run `exec bash` or `source ~/.bashrc` if the prompt does not update immediately.
+
+Installs the repo’s `bashrc` as your new `~/.bashrc`.
 
 ## PowerShell
-
-Copy and paste the following message into your Windows PowerShell command prompt then run '. $PROFILE' or restart your shell to apply.
 
 ```powershell
 irm https://raw.githubusercontent.com/mdkeenan/cli-prompt-bootstrap/main/install-prompt-bootstrap.ps1 | iex
 ```
 
-This backs up your existing profile to `$PROFILE.original` and installs the repo’s `profile.ps1` as your PowerShell profile (`$PROFILE`).
+Works with Windows PowerShell 5.1 and PowerShell 7+ (`pwsh`). Installs the repo’s `profile.ps1` as your PowerShell profile (`$PROFILE`).
 
-Works with Windows PowerShell 5.1 and PowerShell 7+ (`pwsh`).
+## Examples
 
-## Prompt format
-
-Both shells use the same layout:
-
+```text
+[02:45:53:micha:admuser:ASUS-LT:~/One/Doc]$
+[02:35:mkeenan:admuser:ubuntu:~/tes]$
+[22:07:user:stduser:ubuntu:~]$
 ```
-[time:user:privilege:hostname:dir]$ 
-```
-
-Privilege is `admuser` (red) when running as root or a member of the sudo/admin group, or `stduser` (dim gray) otherwise. All prompts end with `$`.
