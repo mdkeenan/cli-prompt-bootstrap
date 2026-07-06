@@ -6,7 +6,7 @@ if (-not $PSVersionTable) {
     exit 1
 }
 
-$repoUrl = 'https://raw.githubusercontent.com/mdkeenan/cli-prompt-bootstrap/main/profile.ps1'
+$repoUrl = 'https://raw.githubusercontent.com/mdkeenan/fancy-shells/main/profile.ps1'
 $backup = "$PROFILE.original"
 
 if ((Test-Path -LiteralPath $PROFILE) -and -not (Test-Path -LiteralPath $backup)) {

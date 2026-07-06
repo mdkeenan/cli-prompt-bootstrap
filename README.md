@@ -1,7 +1,7 @@
-# cli-prompt-bootstrap
+# fancy-shells
 Install a custom prompt and shell config for Bash or PowerShell.
 
-![CLI prompt bootstrap on Linux](assets/cli-prompt-bootstrap-1024x320.png)
+![Fancy shells prompt on Linux](assets/fancy-shells-1024x320.png)
 *Example of the custom prompt on Linux and Windows.*
 
 ## Features
@@ -40,7 +40,7 @@ Both shells use the same layout and color scheme:
 ## Bash
 
 ```bash
-bash <(curl -kfsSL https://raw.githubusercontent.com/mdkeenan/cli-prompt-bootstrap/main/install-prompt-bootstrap.sh)
+bash <(curl -kfsSL https://raw.githubusercontent.com/mdkeenan/fancy-shells/main/install-fancy-shells.sh)
 ```
 
 Then run `exec bash` or `source ~/.bashrc` if the prompt does not update immediately.
@@ -50,7 +50,7 @@ Installs the repo’s `bashrc` as your new `~/.bashrc`.
 ## PowerShell
 
 ```powershell
-irm https://raw.githubusercontent.com/mdkeenan/cli-prompt-bootstrap/main/install-prompt-bootstrap.ps1 | iex
+irm https://raw.githubusercontent.com/mdkeenan/fancy-shells/main/install-fancy-shells.ps1 | iex
 ```
 
 Works with Windows PowerShell 5.1 and PowerShell 7+ (`pwsh`). Installs the repo’s `profile.ps1` as your PowerShell profile (`$PROFILE`).
