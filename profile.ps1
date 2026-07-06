@@ -7,13 +7,43 @@ if (Get-Module -ListAvailable -Name PSReadLine) {
     Set-PSReadLineOption -HistoryNoDuplicates -ErrorAction SilentlyContinue
 }
 
+function global:Get-PromptDirectory {
+    param([string]$Path)
+
+    if (-not $HOME) {
+        $leaf = Split-Path -Leaf $Path
+        return if ($leaf) { $leaf } else { $Path }
+    }
+
+    try {
+        $currentPath = [System.IO.Path]::GetFullPath($Path)
+        $homePath = [System.IO.Path]::GetFullPath($HOME)
+    } catch {
+        $leaf = Split-Path -Leaf $Path
+        return if ($leaf) { $leaf } else { $Path }
+    }
+
+    if ($currentPath.Equals($homePath, [StringComparison]::OrdinalIgnoreCase)) {
+        return '~'
+    }
+
+    $homePrefix = $homePath.TrimEnd('\', '/') + [System.IO.Path]::DirectorySeparatorChar
+    if ($currentPath.StartsWith($homePrefix, [StringComparison]::OrdinalIgnoreCase)) {
+        $relative = $currentPath.Substring($homePrefix.Length).Replace('\', '/')
+        return "~/$relative"
+    }
+
+    $leaf = Split-Path -Leaf $currentPath
+    if (-not $leaf) { return $currentPath }
+    return $leaf
+}
+
 function global:prompt {
     $time = Get-Date -Format 'HH:mm:ss'
     $user = if ($env:USERNAME) { $env:USERNAME } else { $env:USER }
     $hostname = if ($env:COMPUTERNAME) { $env:COMPUTERNAME } else { (hostname) }
     $location = Get-Location
-    $leaf = Split-Path -Leaf $location.Path
-    if (-not $leaf) { $leaf = $location.Path }
+    $leaf = Get-PromptDirectory $location.Path
 
     $isPrivileged = $false
     if ($PSVersionTable.PSVersion.Major -ge 6) {
