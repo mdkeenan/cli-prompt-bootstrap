@@ -9,10 +9,10 @@ esac
 # History settings
 HISTCONTROL=ignoreboth              # ignore duplicates and leading-space commands
 shopt -s histappend                 # append to the history file, don't overwrite it
-HISTSIZE=50000                      # CHANGED: larger in-memory history [web:30]
-HISTFILESIZE=100000                 # CHANGED: larger history file [web:24]
+HISTSIZE=50000
+HISTFILESIZE=100000
 
-# Keep different sessions' history in sync [web:21][web:30]
+# Keep different sessions' history in sync
 if [[ -z "${PROMPT_COMMAND:-}" ]]; then
   PROMPT_COMMAND='history -a; history -n'
 else
@@ -23,7 +23,6 @@ fi
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # set variable identifying the chroot you work in (used in the prompt below)
@@ -31,7 +30,7 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-# set a fancy prompt (non-color, unless we know we "want" color)
+# set a fancy prompt
 case "$TERM" in
     xterm-color|*-256color) color_prompt=yes ;;
 esac
@@ -71,7 +70,7 @@ BWHT="\[\033[47m\]"
 
 # Prompt
 if [ "${color_prompt:-}" = yes ]; then
-    if [ "$EUID" -eq 0 ]; then                  # CHANGED: use EUID [web:18]
+    if [ "$EUID" -eq 0 ]; then
         PS1="$HC$FYEL[$RS\A$FYEL:$FRED${debian_chroot:+($debian_chroot)}\u$FYEL:$FCYN\h$FYEL:$FBLE\W$FYEL]\\$ $RS"
     else
         PS1="$HC$FYEL[$RS\A$FYEL:$FGRN${debian_chroot:+($debian_chroot)}\u$FYEL:$FCYN\h$FYEL:$FBLE\W$FYEL]\\$ $RS"
