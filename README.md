@@ -24,7 +24,7 @@ Works with Windows PowerShell 5.1 and PowerShell 7+ (`pwsh`).
 Both shells use the same layout:
 
 ```
-[time:user:privilege:host:dir]$ 
+[time:user:privilege:hostname:dir]$ 
 ```
 
 Privilege is `admuser` (red) when running as root or a member of the sudo/admin group, or `stduser` (dim gray) otherwise. All prompts end with `$`.
