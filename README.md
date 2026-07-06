@@ -29,5 +29,5 @@ Both shells use the same layout:
 
 Privilege is `admuser` (red) when running as root or a member of the sudo/admin group, or `stduser` (dim gray) otherwise. All prompts end with `$`.
 
-![CLI prompt bootstrap on Linux](assets/cli-prompt-bootstrap-linux-960x400.png)
+![CLI prompt bootstrap on Linux](assets/cli-prompt-bootstrap-1060x230.png)
 *Example of the custom Bash prompt on Linux.*
