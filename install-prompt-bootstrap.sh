@@ -11,10 +11,6 @@ IFS=$'\n\t'
 # Optional timezone setup (uncomment if desired)
 # timedatectl set-timezone America/New_York
 
-# Ensure ~/.ssh exists and is secured
-mkdir -p "$HOME/.ssh"
-chmod 700 "$HOME/.ssh"
-
 # Backup existing .bashrc if present and no backup exists yet
 BACKUP="$HOME/.bashrc.original"
 
@@ -23,7 +19,7 @@ if [ -f "$HOME/.bashrc" ] && [ ! -f "$BACKUP" ]; then
 fi
 
 # Download and replace bashrc for current user
-curl -kfsSL "https://raw.githubusercontent.com/mdkeenan/cli-prompt-bootstrap/master/bootstrap-bashrc.ssh" \
+curl -kfsSL "https://raw.githubusercontent.com/mdkeenan/cli-prompt-bootstrap/master/bootstrap-bashrc.rc" \
   -o "$HOME/.bashrc"
 
 # Advise user to reload shell manually
