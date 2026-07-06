@@ -1,11 +1,7 @@
 # PowerShell profile: custom prompt and shell defaults.
 
-# History settings
-if ($PSVersionTable.PSVersion.Major -ge 7) {
-    $MaximumHistoryCount = 50000
-} else {
-    $MaximumHistoryCount = 32767
-}
+# History settings (PowerShell caps MaximumHistoryCount at 32767)
+$MaximumHistoryCount = 32767
 if (Get-Module -ListAvailable -Name PSReadLine) {
     Import-Module PSReadLine -ErrorAction SilentlyContinue
     Set-PSReadLineOption -HistoryNoDuplicates -ErrorAction SilentlyContinue
