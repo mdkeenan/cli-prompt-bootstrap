@@ -29,7 +29,7 @@ if [ -f "$HOME/.bashrc" ] && [ ! -f "$BACKUP" ]; then
 fi
 
 # Download and replace bashrc for current user
-curl -kfsSL "https://raw.githubusercontent.com/mdkeenan/linux/master/bashrc" \
+curl -kfsSL "https://raw.githubusercontent.com/mdkeenan/cli-prompt-bootstrap/master/bootstrap-bashrc.ssh" \
   -o "$HOME/.bashrc"
 
 # Advise user to reload shell manually
