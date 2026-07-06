@@ -1,6 +1,9 @@
 # cli-prompt-bootstrap
 Install a custom prompt and shell config for Bash or PowerShell.
 
+![CLI prompt bootstrap on Linux](assets/cli-prompt-bootstrap-1060x380.png)
+*Example of the custom Bash prompt on Linux and Windows.*
+
 ## Bash
 
 ```bash
@@ -28,6 +31,3 @@ Both shells use the same layout:
 ```
 
 Privilege is `admuser` (red) when running as root or a member of the sudo/admin group, or `stduser` (dim gray) otherwise. All prompts end with `$`.
-
-![CLI prompt bootstrap on Linux](assets/cli-prompt-bootstrap-1060x380.png)
-*Example of the custom Bash prompt on Linux and Windows.*
