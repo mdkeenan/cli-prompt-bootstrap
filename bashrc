@@ -88,22 +88,12 @@ else
     _priv_label=stduser
 fi
 
-if [ "$EUID" -eq 0 ]; then
-    _prompt_end='\\# '
-else
-    _prompt_end='\\$ '
-fi
-
 if [ "${color_prompt:-}" = yes ]; then
-    PS1="${HC}${FYEL}[${RS}\A${FYEL}:${FGRN}${debian_chroot:+($debian_chroot)}\u${FYEL}:${_priv}${FYEL}:${FCYN}\h${FYEL}:${FBLE}\W${FYEL}]${_prompt_end}${RS}"
+    PS1="${HC}${FYEL}[${RS}\A${FYEL}:${FGRN}${debian_chroot:+($debian_chroot)}\u${FYEL}:${_priv}${FYEL}:${FCYN}\h${FYEL}:${FBLE}\W${FYEL}]\$ ${RS}"
 else
-    if [ "$EUID" -eq 0 ]; then
-        PS1='${debian_chroot:+($debian_chroot)}\u:'"$_priv_label"':\h:\W\# '
-    else
-        PS1='${debian_chroot:+($debian_chroot)}\u:'"$_priv_label"':\h:\W\$ '
-    fi
+    PS1='${debian_chroot:+($debian_chroot)}\u:'"$_priv_label"':\h:\W$ '
 fi
-unset _is_admuser _groups _priv _priv_label _prompt_end
+unset _is_admuser _groups _priv _priv_label
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir

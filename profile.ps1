@@ -16,14 +16,12 @@ function global:prompt {
     if (-not $leaf) { $leaf = $location.Path }
 
     $isPrivileged = $false
-    $isRoot = $false
     if ($PSVersionTable.PSVersion.Major -ge 6) {
         if ($IsWindows) {
             $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
             $principal = [Security.Principal.WindowsPrincipal]$identity
             $adminSid = [Security.Principal.SecurityIdentifier]::new('S-1-5-32-544')
             $isPrivileged = $principal.IsInRole($adminSid)
-            $isRoot = $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
         } elseif ($IsLinux -or $IsMacOS) {
             $isRoot = (id -u) -eq 0
             $isPrivileged = $isRoot
@@ -37,14 +35,12 @@ function global:prompt {
         $principal = [Security.Principal.WindowsPrincipal]$identity
         $adminSid = [Security.Principal.SecurityIdentifier]::new('S-1-5-32-544')
         $isPrivileged = $principal.IsInRole($adminSid)
-        $isRoot = $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
     }
 
     $Host.UI.RawUI.WindowTitle = "${user}@${hostname}: $($location.Path)"
 
     $privLabel = if ($isPrivileged) { 'admuser' } else { 'stduser' }
     $privColor = if ($isPrivileged) { 'Red' } else { 'DarkGray' }
-    $suffix = if ($isRoot) { '# ' } else { '$ ' }
 
     Write-Host '[' -NoNewline -ForegroundColor Yellow
     Write-Host $time -NoNewline
@@ -57,7 +53,7 @@ function global:prompt {
     Write-Host ':' -NoNewline -ForegroundColor Yellow
     Write-Host $leaf -NoNewline -ForegroundColor Blue
     Write-Host ']' -NoNewline -ForegroundColor Yellow
-    return $suffix
+    return '$ '
 }
 
 function global:ll { Get-ChildItem -Force }
