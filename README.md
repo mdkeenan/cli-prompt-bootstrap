@@ -1,2 +1,2 @@
 # cli-prompt-bootstrap
-The best CLI prompt
+Install a custom Bash prompt, shell config, and optional SSH key setup.
