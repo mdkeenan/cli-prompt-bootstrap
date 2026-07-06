@@ -89,9 +89,9 @@ else
 fi
 
 if [ "${color_prompt:-}" = yes ]; then
-    PS1="${HC}${FYEL}[${RS}\A${FYEL}:${FGRN}${debian_chroot:+($debian_chroot)}\u${FYEL}:${_priv}${FYEL}:${FCYN}\h${FYEL}:${FBLE}\W${FYEL}]\$ ${RS}"
+    PS1="${HC}${FYEL}[${RS}\A${FYEL}:${FGRN}${debian_chroot:+($debian_chroot)}\u${FYEL}:${_priv}${FYEL}:${FCYN}\h${FYEL}:${FBLE}\w${FYEL}]\$ ${RS}"
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u:'"$_priv_label"':\h:\W$ '
+    PS1='${debian_chroot:+($debian_chroot)}\u:'"$_priv_label"':\h:\w$ '
 fi
 unset _is_admuser _groups _priv _priv_label
 unset color_prompt force_color_prompt
