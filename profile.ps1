@@ -52,8 +52,8 @@ function global:prompt {
     Write-Host $hostname -NoNewline -ForegroundColor Cyan
     Write-Host ':' -NoNewline -ForegroundColor Yellow
     Write-Host $leaf -NoNewline -ForegroundColor Blue
-    Write-Host ']' -NoNewline -ForegroundColor Yellow
-    return '$ '
+    Write-Host ']$' -NoNewline -ForegroundColor Yellow
+    return ' '
 }
 
 function global:ll { Get-ChildItem -Force }

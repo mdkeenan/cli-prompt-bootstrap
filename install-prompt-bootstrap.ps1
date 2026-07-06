@@ -20,4 +20,5 @@ if (-not (Test-Path -LiteralPath $profileDir)) {
 
 Invoke-RestMethod -Uri $repoUrl -OutFile $PROFILE
 
-Write-Host "New profile installed at $PROFILE. Run '. `$PROFILE' or restart your shell to apply."
+Write-Host "New profile installed at $PROFILE."
+. $PROFILE
