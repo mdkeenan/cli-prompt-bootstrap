@@ -2,6 +2,11 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+if [ -z "${BASH_VERSION:-}" ]; then
+    echo "This installer must be run from Bash." >&2
+    exit 1
+fi
+
 # Optional: require root for timezone config
 # if [[ $EUID -ne 0 ]]; then
 #     echo "Please run as root (sudo) to set timezone and system config." >&2
