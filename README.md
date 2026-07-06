@@ -27,7 +27,7 @@ Both shells use the same layout:
 [time:user:privilege:host:dir]$ 
 ```
 
-Privilege is `admuser` (red) when running elevated or as root, or `stduser` (dim gray) otherwise. Username is green, host is cyan, and directory is blue.
+Privilege is `admuser` (red) when running as root or a member of the sudo/admin group, or `stduser` (dim gray) otherwise. The `#` suffix appears only for an active root session.
 
 ![CLI prompt bootstrap on Linux](assets/cli-prompt-bootstrap-linux-960x400.png)
 *Example of the custom Bash prompt on Linux.*

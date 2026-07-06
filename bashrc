@@ -69,12 +69,28 @@ BMAG="\[\033[45m\]"
 BCYN="\[\033[46m\]"
 BWHT="\[\033[47m\]"
 
-# Prompt (privilege segment built separately; avoid $VAR:${OTHER} — Bash treats it as substring expansion)
+# Privilege label: admuser if root or in sudo/wheel/admin group
+_is_admuser=0
 if [ "$EUID" -eq 0 ]; then
+    _is_admuser=1
+else
+    _groups=$(id -nG 2>/dev/null) || _groups=
+    case " $_groups " in
+        *" sudo "*|*" wheel "*|*" admin "*) _is_admuser=1 ;;
+    esac
+fi
+
+if [ "$_is_admuser" -eq 1 ]; then
     _priv="${FRED}admuser"
-    _prompt_end='\\# '
+    _priv_label=admuser
 else
     _priv="${FDGRY}stduser"
+    _priv_label=stduser
+fi
+
+if [ "$EUID" -eq 0 ]; then
+    _prompt_end='\\# '
+else
     _prompt_end='\\$ '
 fi
 
@@ -82,12 +98,12 @@ if [ "${color_prompt:-}" = yes ]; then
     PS1="${HC}${FYEL}[${RS}\A${FYEL}:${FGRN}${debian_chroot:+($debian_chroot)}\u${FYEL}:${_priv}${FYEL}:${FCYN}\h${FYEL}:${FBLE}\W${FYEL}]${_prompt_end}${RS}"
 else
     if [ "$EUID" -eq 0 ]; then
-        PS1='${debian_chroot:+($debian_chroot)}\u:admuser:\h:\W\# '
+        PS1='${debian_chroot:+($debian_chroot)}\u:'"$_priv_label"':\h:\W\# '
     else
-        PS1='${debian_chroot:+($debian_chroot)}\u:stduser:\h:\W\$ '
+        PS1='${debian_chroot:+($debian_chroot)}\u:'"$_priv_label"':\h:\W\$ '
     fi
 fi
-unset _priv _prompt_end
+unset _is_admuser _groups _priv _priv_label _prompt_end
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
