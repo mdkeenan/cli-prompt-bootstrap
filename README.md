@@ -1,7 +1,7 @@
 # cli-prompt-bootstrap
 Install a custom prompt and shell config for Bash or PowerShell.
 
-![CLI prompt bootstrap on Linux](assets/cli-prompt-bootstrap-1060x380.png)
+![CLI prompt bootstrap on Linux](assets/cli-prompt-bootstrap-1024x320.png)
 *Example of the custom prompt on Linux and Windows.*
 
 ## Features
