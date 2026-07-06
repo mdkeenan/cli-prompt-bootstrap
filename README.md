@@ -1,4 +1,4 @@
-# fancy-shells
+# Fancy Shells
 Install a custom prompt and shell config for Bash or PowerShell.
 
 ![Fancy shells prompt on Linux](assets/fancy-shells-1024x320.png)
